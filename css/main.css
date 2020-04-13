@@ -1,0 +1,194 @@
+body {
+  background: #2c2c2c;
+  color: #ffffff;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+body #menubar {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-align: stretch;
+      -ms-flex-align: stretch;
+          align-items: stretch;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: start;
+  height: 2rem;
+  text-align: center;
+  background: #4b4b4b;
+}
+
+body #menubar button {
+  margin: 0.3rem 0rem 0.3rem 0.3rem;
+}
+
+body #pageContent {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: flex-start;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: start;
+  width: 100%;
+}
+
+body #pageContent #toolBox {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: stretch;
+      -ms-flex-align: stretch;
+          align-items: stretch;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  text-align: center;
+  background: #4b4b4b;
+  width: 15rem;
+}
+
+body #pageContent #toolBox div {
+  margin: 1rem;
+  background: #5f5f5f;
+}
+
+body #pageContent #toolBox #tool-colorPicker div {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: left;
+      -ms-flex-pack: left;
+          justify-content: left;
+}
+
+body #pageContent #toolBox #tool-colorPicker .colorInput {
+  display: block;
+  width: 3rem;
+  height: 2rem;
+  border: none;
+  margin-right: 1rem;
+  background: none;
+}
+
+body #pageContent #toolBox #tool-colorPicker .active {
+  border: 1px solid #ffffff;
+}
+
+body #pageContent #toolBox #tool-colorPicker #tool-colorPicker-left {
+  cursor: pointer;
+}
+
+body #pageContent #toolBox #tool-colorPicker #tool-colorPicker-right {
+  cursor: pointer;
+}
+
+body #pageContent #toolBox #tool-colorPicker #tool-colorPicker-rgba {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: left;
+      -ms-flex-pack: left;
+          justify-content: left;
+  margin: 0;
+}
+
+body #pageContent #toolBox #tool-colorPicker #tool-colorPicker-rgba .slider {
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  outline: none;
+  background: #929292;
+  opacity: 0.7;
+  -webkit-transition: opacity .2s;
+  transition: opacity .2s;
+  width: 80%;
+}
+
+body #pageContent #toolBox #tool-colorPicker #tool-colorPicker-rgba .slider:hover {
+  opacity: 1;
+}
+
+body #pageContent #toolBox #tool-colorPicker #tool-colorPicker-rgba .slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+          appearance: none;
+  width: 25px;
+  height: 25px;
+  background: #494949;
+  cursor: pointer;
+}
+
+body #pageContent #toolBox #tool-colorPicker #tool-colorPicker-rgba .slider::-moz-range-thumb {
+  width: 25px;
+  height: 25px;
+  background: #2c2c2c;
+  cursor: pointer;
+}
+
+body #pageContent #toolBox #tool-colorPicker #tool-colorPicker-rgba .sliderNumerField {
+  width: 25%;
+}
+
+body #pageContent #toolBox #tool-colorPicker #tool-colorPicker-rgba div {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: left;
+      -ms-flex-pack: left;
+          justify-content: left;
+  margin: .3rem;
+}
+
+body #pageContent canvas {
+  margin: 1rem;
+  background-image: url("../img/background_01.png");
+  width: 50em;
+  height: 50em;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: -webkit-crisp-edges;
+  -ms-interpolation-mode: nearest-neighbor;
+      image-rendering: -webkit-optimize-contrast;
+      image-rendering: -o-pixelated;
+      image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  cursor: crosshair;
+}
+/*# sourceMappingURL=main.css.map */
