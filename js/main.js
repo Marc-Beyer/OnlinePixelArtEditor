@@ -5,6 +5,15 @@ let imgData;
 
 const canvas = document.getElementById("mainCanvas");
 
+const DrawState = Object.freeze({
+	PAINT: 0,
+    ERASE: 1,
+    SELECT: 2,
+    MOVE: 3,
+    FILL: 4
+});
+
+let curDrawState = DrawState.PAINT;
 let isDrawing = false;
 let isColorPickerLeftActive = true;
 let leftColor = {r:0,g:0,b:0,a:255};
@@ -36,6 +45,41 @@ function init(){
 
 //handle a click on canvas
 function handleMouseEvent(e, isLeftclick = true){
+    switch (curDrawState) {
+        case DrawState.PAINT:
+            paintMouseHandler(e, isLeftclick);
+            break;
+        case DrawState.ERASE:
+            eraseMouseHandler(e, isLeftclick);
+            break;
+        case DrawState.SELECT:
+            eraseMouseHandler(e, isLeftclick);
+            break;
+        case DrawState.MOVE:
+            eraseMouseHandler(e, isLeftclick);
+            break;
+        case DrawState.FILL:
+            eraseMouseHandler(e, isLeftclick);
+            break;
+    }
+    
+}
+
+function eraseMouseHandler(e, isLeftclick){
+    let boundingClientRect = canvas.getBoundingClientRect();
+    boundingClientRect.width
+    let xPos = e.clientX - boundingClientRect.x;
+    let yPos = e.clientY - boundingClientRect.y;
+    xPos = Math.floor(xPos * (x/boundingClientRect.width));
+    yPos = Math.floor(yPos * (x/boundingClientRect.height));
+    if(isLeftclick){
+        setPixel(xPos, yPos, rgba(0,0,0,0));
+    }else{
+        setPixel(xPos, yPos, rgba(0,0,0,0));
+    }
+}
+
+function paintMouseHandler(e, isLeftclick){
     let boundingClientRect = canvas.getBoundingClientRect();
     boundingClientRect.width
     let xPos = e.clientX - boundingClientRect.x;
@@ -174,6 +218,53 @@ function intToHex(int){
     return hexString;
 }
 
+//ToolSelectionHandler
+function handleToolSelectionPaint(){
+    document.getElementById("tool-toolSelector-paint").className = "active";
+    document.getElementById("tool-toolSelector-erase").className = "";
+    document.getElementById("tool-toolSelector-select").className = "";
+    document.getElementById("tool-toolSelector-move").className = "";
+    document.getElementById("tool-toolSelector-fill").className = "";
+    curDrawState = DrawState.PAINT;
+}
+
+function handleToolSelectionErase(){
+    document.getElementById("tool-toolSelector-paint").className = "";
+    document.getElementById("tool-toolSelector-erase").className = "active";
+    document.getElementById("tool-toolSelector-select").className = "";
+    document.getElementById("tool-toolSelector-move").className = "";
+    document.getElementById("tool-toolSelector-fill").className = "";
+    curDrawState = DrawState.ERASE;
+}
+
+function handleToolSelectionSelect(){
+    document.getElementById("tool-toolSelector-paint").className = "";
+    document.getElementById("tool-toolSelector-erase").className = "";
+    document.getElementById("tool-toolSelector-select").className = "active";
+    document.getElementById("tool-toolSelector-move").className = "";
+    document.getElementById("tool-toolSelector-fill").className = "";
+    curDrawState = DrawState.SELECT;
+}
+
+function handleToolSelectionMove(){
+    document.getElementById("tool-toolSelector-paint").className = "";
+    document.getElementById("tool-toolSelector-erase").className = "";
+    document.getElementById("tool-toolSelector-select").className = "";
+    document.getElementById("tool-toolSelector-move").className = "active";
+    document.getElementById("tool-toolSelector-fill").className = "";
+    curDrawState = DrawState.MOVE;
+}
+
+function handleToolSelectionFill(){
+    document.getElementById("tool-toolSelector-paint").className = "";
+    document.getElementById("tool-toolSelector-erase").className = "";
+    document.getElementById("tool-toolSelector-select").className = "";
+    document.getElementById("tool-toolSelector-move").className = "";
+    document.getElementById("tool-toolSelector-fill").className = "active";
+    curDrawState = DrawState.FILL;
+}
+
+
 ////////////////////
 // Event Listener //
 ////////////////////
@@ -203,6 +294,7 @@ canvas.addEventListener('mouseup', e => {
     isDrawing = false;
 });
 
+
 //add eventlistener to colorpickerslider
 document.getElementById("tool-colorPicker-rgba-r-slider").onchange = handleColorPickerSliderChange;
 document.getElementById("tool-colorPicker-rgba-g-slider").onchange = handleColorPickerSliderChange;
@@ -218,5 +310,12 @@ document.getElementById("tool-colorPicker-right-colorInput").onchange = handleCo
 
 document.getElementById("tool-colorPicker-left").addEventListener('click', handleColorPickerLeft);
 document.getElementById("tool-colorPicker-right").addEventListener('click', handleColorPickerRight);
+
+document.getElementById("tool-toolSelector-paint").addEventListener('click', handleToolSelectionPaint);
+document.getElementById("tool-toolSelector-erase").addEventListener('click', handleToolSelectionErase);
+document.getElementById("tool-toolSelector-select").addEventListener('click', handleToolSelectionSelect);
+document.getElementById("tool-toolSelector-move").addEventListener('click', handleToolSelectionMove);
+document.getElementById("tool-toolSelector-fill").addEventListener('click', handleToolSelectionFill);
+
 
 init();
