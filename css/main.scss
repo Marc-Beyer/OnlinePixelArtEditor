@@ -45,9 +45,13 @@ body{
             #tool-toolSelector{
                 @include flexPosition(column, center, left);
                 div{
+                    @include flexPosition(row, center, left);
                     cursor: pointer;
                     margin: 0;
                     width: 100%;
+                    img{
+                        margin-left: 1rem;
+                    }
                 }
                 h3{
                     margin: .3rem;
@@ -106,6 +110,23 @@ body{
                     div{
                         @include flexPosition(row, center, left); 
                         margin: .3rem;
+                    }
+                }
+            }
+            #tool-animationControl{
+                #tool-animationControl-panel{
+                    @include flexPosition(row, center, center); 
+                    margin-top: 1rem;
+                }
+                #tool-animationControl-content{
+                    @include flexPosition(column, center, left); 
+                    margin: 0;
+                    button{
+                        width: 100%;
+                    }
+                    .active{
+                        background: #9e9e9e;
+                        border: 1px solid #9e9e9e;
                     }
                 }
             }

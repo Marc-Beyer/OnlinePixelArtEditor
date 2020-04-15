@@ -37,7 +37,7 @@ function handleColorPickerColorFieldLeftChange(){
     if(!isColorPickerLeftActive){
         isColorPickerLeftActive = true;
     }
-    changeColor(rgba(r, g, b, rightColor.a));
+    changeColor(rgba(r, g, b, leftColor.a));
 }
 
 function handleColorPickerColorFieldRightChange(){

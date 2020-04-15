@@ -32,13 +32,19 @@ function handleToolSelectionFill(){
 function handleToolSelectionLine(){
     resetAllToolselectionClasses();
     document.getElementById("tool-toolSelector-line").className = "active";
-    curDrawState = DrawState.FILL;
+    curDrawState = DrawState.LINE;
 }
 
 function handleToolSelectionShape(){
     resetAllToolselectionClasses();
     document.getElementById("tool-toolSelector-shape").className = "active";
-    curDrawState = DrawState.FILL;
+    curDrawState = DrawState.SHAPE;
+}
+
+function handleToolSelectionPicker(){
+    resetAllToolselectionClasses();
+    document.getElementById("tool-toolSelector-picker").className = "active";
+    curDrawState = DrawState.PICKER;
 }
 
 //set the classname of all toolSelector elements to emptyString
@@ -50,6 +56,7 @@ function resetAllToolselectionClasses(){
     document.getElementById("tool-toolSelector-fill").className = "";
     document.getElementById("tool-toolSelector-line").className = "";
     document.getElementById("tool-toolSelector-shape").className = "";
+    document.getElementById("tool-toolSelector-picker").className = "";
 }
 
 ////////////////////
@@ -63,3 +70,4 @@ document.getElementById("tool-toolSelector-move").addEventListener('click', hand
 document.getElementById("tool-toolSelector-fill").addEventListener('click', handleToolSelectionFill);
 document.getElementById("tool-toolSelector-line").addEventListener('click', handleToolSelectionLine);
 document.getElementById("tool-toolSelector-shape").addEventListener('click', handleToolSelectionShape);
+document.getElementById("tool-toolSelector-picker").addEventListener('click', handleToolSelectionPicker);

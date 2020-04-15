@@ -4,7 +4,12 @@ let y = 16;
 
 //canvasdata
 let canvasContext;
-let imgData;
+let curImg = 0;
+let imgs = [{
+    name: "img", 
+    imgData: undefined
+}];
+console.log("imgs", imgs);
 
 //the main canvas
 const canvas = document.getElementById("mainCanvas");
@@ -17,7 +22,8 @@ const DrawState = Object.freeze({
     MOVE: 3,
     FILL: 4,
     LINE: 5,
-    SHAPE: 6
+    SHAPE: 6,
+    PICKER: 7
 });
 
 //curDrawState is of type DrawState
@@ -39,13 +45,13 @@ function init(){
         canvasContext = canvas.getContext("2d");
         canvasContext.canvas.width = x;
         canvasContext.canvas.height = y;
-        imgData = canvasContext.createImageData(x, y);
+        //init all animationframes
+        for (let index = 0; index < imgs.length; index++) {
+            imgs[index].imgData = canvasContext.createImageData(x, y);
+        }
+        console.log("imgs", imgs);
         console.log("canvasContext", canvasContext);
         console.log("color", rgba(2, 2, 3, 0));
-        
-        canvasContext.fillStyle = "#FF0000";
-        canvasContext.fillRect(3, 5, 1, 3);
-        setPixel(0, 0, rgba(255, 2, 3, 255));
 
         isColorPickerLeftActive = false;
         changeColor(rgba(255, 255, 255, 255));
@@ -58,7 +64,7 @@ function init(){
     }
 }
 
-//get the parameter of the url. parameters that are checked are: size, animationLength;
+//get the parameter of the url. parameters that are checked are: size, animationLength, name;
 function getUrlParameter(){
     let urlParams = new URLSearchParams(window.location.search);
     let size = urlParams.get('size');
@@ -66,31 +72,108 @@ function getUrlParameter(){
         x = parseInt(size);
         y = x;
     }
+    let name = urlParams.get('name');
+    if(name != null){
+        imgs[curImg].name = name; 
+    }else{
+        name = "newImage";
+    }
     let animationLength = urlParams.get('animationLength');
     if(animationLength != null){
-        //TODO
+        for (let index = 0; index < animationLength; index++) {
+            imgs[index] = {
+                name: name + "_" + index, 
+                imgData: undefined
+            }
+        }
     }
 }
 
-//set the color of a pixel in imgData and put imgData in canvas
-function setPixel(xPos, yPos, color){
+//set the color of a pixel in imgs[curImg].imgData and put imgs[curImg].imgData in canvas
+function setPixel(xPos, yPos, color, putImgData = true){
     xPos *= 4;
     xPos += yPos * 4 * x;
-    imgData.data[xPos + 0] = color.r;
-    imgData.data[xPos + 1] = color.g;
-    imgData.data[xPos + 2] = color.b;
-    imgData.data[xPos + 3] = color.a;
-    canvasContext.putImageData(imgData, 0, 0);
+    imgs[curImg].imgData.data[xPos + 0] = color.r;
+    imgs[curImg].imgData.data[xPos + 1] = color.g;
+    imgs[curImg].imgData.data[xPos + 2] = color.b;
+    imgs[curImg].imgData.data[xPos + 3] = color.a;
+    if(putImgData)canvasContext.putImageData(imgs[curImg].imgData, 0, 0);
 }
 
-//draws a line from pos1 to pos2 in imgData and put imgData in canvas
-function drawLine(xPos1, yPos1, xPos2, yPos2, color){
-    setPixel(xPos1, yPos1, color);
-
-    setPixel(xPos2, yPos2, color);
+//get the color of the pixel on pos
+function getColorOnPos(xPos, yPos){
+    xPos *= 4;
+    xPos += yPos * 4 * x;
+    let r = imgs[curImg].imgData.data[xPos + 0];
+    let g = imgs[curImg].imgData.data[xPos + 1];
+    let b = imgs[curImg].imgData.data[xPos + 2];
+    let a = imgs[curImg].imgData.data[xPos + 3];
+    return rgba(r,g,b,a);
 }
 
-//draws a box from pos1 to pos2 in imgData and put imgData in canvas
+function fill(xPos, yPos, color){
+    let baseColor = getColorOnPos(xPos, yPos);
+    console.log(baseColor);
+    console.log(color);
+    console.log("baseColor == color", baseColor == color);
+    console.log("baseColor === color", baseColor === color);
+    console.log("rgbaEquals(baseColor, color)", rgbaEquals(baseColor, color));
+    if(rgbaEquals(baseColor, color))return;
+
+    fillNeighborWithSameBaseColorRecursive(xPos, yPos, baseColor, color);
+    canvasContext.putImageData(imgs[curImg].imgData, 0, 0);
+}
+
+function fillNeighborWithSameBaseColorRecursive(xPos, yPos, baseColor, color){
+    if(xPos < 0 || yPos < 0)return;
+    if(xPos >= x || yPos >= y)return;
+    if(rgbaEquals(getColorOnPos(xPos, yPos), baseColor)){
+        setPixel(xPos, yPos, color, false);
+        
+        fillNeighborWithSameBaseColorRecursive(xPos-1, yPos, baseColor, color);
+        fillNeighborWithSameBaseColorRecursive(xPos+1, yPos, baseColor, color);
+        fillNeighborWithSameBaseColorRecursive(xPos, yPos-1, baseColor, color);
+        fillNeighborWithSameBaseColorRecursive(xPos, yPos+1, baseColor, color);
+    }
+
+}
+
+//draws a line from pos1 to pos2 in imgs[curImg].imgData and put imgs[curImg].imgData in canvas
+function drawLine(xPos1, yPos1, xPos2, yPos2, color) {
+    let w = Math.abs(xPos2 - xPos1);
+    let h = Math.abs(yPos2 - yPos1);
+    let sx = (xPos1 < xPos2) ? 1 : -1;
+    let sy = (yPos1 < yPos2) ? 1 : -1;
+    let err = w - h;
+ 
+    while(true) {
+       setPixel(xPos1, yPos1, color, false);
+       if ((xPos1 === xPos2) && (yPos1 === yPos2)) break;
+       let e2 = 2*err;
+       if (e2 > -h) { err -= h; xPos1  += sx; }
+       if (e2 < w) { err += w; yPos1  += sy; }
+    }
+    canvasContext.putImageData(imgs[curImg].imgData, 0, 0);
+}
+
+//draws a line (with) from pos1 to pos2 in imgs[curImg].imgData and put imgs[curImg].imgData in canvas
+function drawLineFuzzy(xPos1, yPos1, xPos2, yPos2, color, lineWidth){
+    canvasContext.beginPath();
+    let hexString = intToHex(color.r) + intToHex(color.g) + intToHex(color.b);
+    canvasContext.strokeStyle = '#' + hexString;
+    canvasContext.lineWidth = lineWidth;
+    canvasContext.translate(0.5,0.5);
+    canvasContext.moveTo(xPos1, yPos1);
+    canvasContext.lineTo(xPos2, yPos2);
+    canvasContext.stroke(); 
+    console.log("canvasContext",canvasContext);
+    console.log("canvasContext data", canvasContext.getImageData(0, 0, x, y));
+    
+    imgs[curImg].imgData = canvasContext.getImageData(0, 0, x, y);
+    canvasContext.putImageData(imgs[curImg].imgData, 0, 0);
+}
+
+//draws a box from pos1 to pos2 in imgs[curImg].imgData and put imgs[curImg].imgData in canvas
 function drawBox(xPos1, yPos1, xPos2, yPos2, color){
     //check if xPos1 is greater then xPos2. If true change xPos1 and xPos2
     if(xPos1 > xPos2){
@@ -105,11 +188,12 @@ function drawBox(xPos1, yPos1, xPos2, yPos2, color){
         yPos1 = yTemp;
     }
     //set the correct color to all pixel between pos1 and pos2
-    for (let x = xPos1; x < xPos2; x++) {
-        for (let y = yPos1; y < yPos2; y++) {
-            setPixel(x, y, color);
+    for (let x = xPos1; x < xPos2+1; x++) {
+        for (let y = yPos1; y < yPos2+1; y++) {
+            setPixel(x, y, color, false);
         }
     }
+    canvasContext.putImageData(imgs[curImg].imgData, 0, 0);
 }
 
 //r,g,b,a can be between 0 and 255
@@ -122,7 +206,26 @@ function rgba(r, g, b, a){
     return color;
 }
 
+//checks if both colors match. Resturns true if both Alpha velues are 0
+function rgbaEquals(color1, color2){
+    //both are not visible -> return true
+    if(parseInt(color1.a) === 0 && parseInt(color2.a) === 0)return true;
 
+    //all values match -> return true
+    if(parseInt(color1.r) === parseInt(color2.r) && parseInt(color1.g) === parseInt(color2.g) && parseInt(color1.b) === parseInt(color2.b) && parseInt(color1.a) === parseInt(color2.a))return true;
+
+    //else return false;
+    return false;
+
+}
+
+//get the current mousecolor
+function getCurrentColor(isLeftclick = true){
+    if(isLeftclick){
+        return leftColor;
+    }
+    return rightColor;
+}
 
 //set the active color (isColorPickerLeftActive defines witch color is set)
 function changeColor(color){
@@ -169,7 +272,7 @@ function intToHex(int){
 //add eventlistener to downloadBtn
 document.getElementById("downloadBtn").addEventListener('click', () =>{
     canvas.toBlob(function(blob){
-        download(blob, "img.png", ".png");
+        download(blob, imgs[curImg].name + ".png", ".png");
     });
 });
 

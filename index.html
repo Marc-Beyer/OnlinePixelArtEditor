@@ -22,25 +22,36 @@
             <h2>Tools</h2>
             <div id="tool-toolSelector">
                 <div id="tool-toolSelector-paint" title="Paint (D)" class="active">
+                    <img src="./img/pencil.png">
                     <h3>Paint</h3>
                 </div>
                 <div id="tool-toolSelector-erase" title="Erase (R)">
+                    <img src="./img/eraser.png">
                     <h3>Erase</h3>
                 </div>
                 <div id="tool-toolSelector-select" title="Select (S)">
+                    <img src="./img/select.png">
                     <h3>Select</h3>
                 </div>
                 <div id="tool-toolSelector-move" title="Move (A)">
+                    <img src="./img/move.png">
                     <h3>Move</h3>
                 </div>
                 <div id="tool-toolSelector-fill" title="Fill (F)">
+                    <img src="./img/fill.png">
                     <h3>Fill</h3>
                 </div>
                 <div id="tool-toolSelector-line" title="Draw Line (???)">
+                    <img src="./img/line.png">
                     <h3>Draw Line</h3>
                 </div>
                 <div id="tool-toolSelector-shape" title="Draw Shape (???)">
+                    <img src="./img/shapes.png">
                     <h3>Draw Shape</h3>
+                </div>
+                <div id="tool-toolSelector-picker" title="Color Picker (???)">
+                    <img src="./img/colorPicker.png">
+                    <h3>Color Picker</h3>
                 </div>
             </div>
             <div id="tool-colorPicker">
@@ -80,10 +91,16 @@
                     </div>
                 </div>
             </div>
-            <button>button</button>
-            <button>button</button>
-            <button>button</button>
-            <button>button</button>
+            <div id="tool-animationControl">
+                <h3>Animaton</h3>
+                <div id="tool-animationControl-panel">
+                    <button id="tool-animationControl-panel-backBtn">Back</button>
+                    <button id="tool-animationControl-panel-playBtn">></button>
+                    <button id="tool-animationControl-panel-nextBtn">Next</button>
+                </div>
+                <div id="tool-animationControl-content">
+                </div>
+            </div>
         </div>
 
         <canvas id="mainCanvas">
@@ -97,6 +114,7 @@
     <script src='./js/main.js'></script>
     <script src='./js/toolSelector.js'></script>
     <script src="./js/colorPicker.js"></script>
+    <script src="./js/animationControl.js"></script>
     <script src="./js/canvas.js"></script>
 </body>
 </html>
