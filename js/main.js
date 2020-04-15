@@ -5,6 +5,7 @@ let imgData;
 
 const canvas = document.getElementById("mainCanvas");
 
+//The type of tool that is used
 const DrawState = Object.freeze({
 	PAINT: 0,
     ERASE: 1,
@@ -13,11 +14,15 @@ const DrawState = Object.freeze({
     FILL: 4
 });
 
+//curDrawState is of type DrawState
 let curDrawState = DrawState.PAINT;
+//is the user drawing right now
 let isDrawing = false;
+//the active color and 
 let isColorPickerLeftActive = true;
 let leftColor = {r:0,g:0,b:0,a:255};
 let rightColor = {r:255,g:255,b:255,a:255};
+
 
 function init(){
     if (canvas.getContext) {
@@ -95,6 +100,17 @@ function paintMouseHandler(e, isLeftclick){
 
 //set the color of a pixel in imgData and put imgData in canvas
 function setPixel(xPos, yPos, color){
+    xPos *= 4;
+    xPos += yPos * 4 * x;
+    imgData.data[xPos + 0] = color.r;
+    imgData.data[xPos + 1] = color.g;
+    imgData.data[xPos + 2] = color.b;
+    imgData.data[xPos + 3] = color.a;
+    canvasContext.putImageData(imgData, 0, 0);
+}
+
+//draws a line from pos1 to pos2 in imgData and put imgData in canvas
+function drawLinr(xPos1, yPos1, xPos2, yPos2, color){
     xPos *= 4;
     xPos += yPos * 4 * x;
     imgData.data[xPos + 0] = color.r;
@@ -287,13 +303,36 @@ canvas.addEventListener('mousedown', e => {
 });
 canvas.addEventListener('mousemove', e => {
     if(isDrawing){
+        console.log("move", e);
         handleMouseEvent(e, e.buttons == 1);
     }
 });
 canvas.addEventListener('mouseup', e => {
     isDrawing = false;
 });
+canvas.addEventListener('mouseleave', e => {
+    isDrawing = false;
+});
+canvas.addEventListener('mouseenter', e => {
+    console.log("mouseenter", e);
+    if(e.buttons == 1){
+        isDrawing = true;
+        handleMouseEvent(e, true);
+    }else if(e.buttons == 2){
+        isDrawing = true;
+        handleMouseEvent(e, false);
+    }
+});
 
+document.addEventListener('paste', (e) => {
+    let dataTransferItemList = e.clipboardData.items;
+    console.log("dataTransferItemList", dataTransferItemList);
+    for (const iterator of dataTransferItemList) {
+        console.log("iterator", iterator);
+    }
+    let paste = (event.clipboardData || window.clipboardData).getData('text');
+    console.log("paste", paste);
+});
 
 //add eventlistener to colorpickerslider
 document.getElementById("tool-colorPicker-rgba-r-slider").onchange = handleColorPickerSliderChange;
