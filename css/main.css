@@ -207,8 +207,8 @@ body #pageContent #toolBox #tool-colorPicker #tool-colorPicker-rgba div {
 body #pageContent canvas {
   margin: 1rem;
   background-image: url("../img/background_01.png");
-  width: 50em;
-  height: 50em;
+  width: 50rem;
+  height: 50rem;
   image-rendering: -moz-crisp-edges;
   image-rendering: -webkit-crisp-edges;
   -ms-interpolation-mode: nearest-neighbor;
@@ -217,5 +217,6 @@ body #pageContent canvas {
       image-rendering: pixelated;
   image-rendering: crisp-edges;
   cursor: crosshair;
+  border: 1px solid #ffffff;
 }
 /*# sourceMappingURL=main.css.map */

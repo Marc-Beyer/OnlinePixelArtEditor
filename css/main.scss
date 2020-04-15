@@ -113,8 +113,8 @@ body{
         canvas{
             margin: 1rem;
             background-image: url('../img/background_01.png');
-            width: 50em;
-            height: 50em;
+            width: 50rem;
+            height: 50rem;
 
             image-rendering: -moz-crisp-edges;
             image-rendering: -webkit-crisp-edges;
@@ -122,6 +122,8 @@ body{
             image-rendering: crisp-edges;
 
             cursor: crosshair;
+
+            border: 1px solid #ffffff;
         }
     }
     
