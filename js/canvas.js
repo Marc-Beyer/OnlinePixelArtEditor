@@ -78,19 +78,15 @@ function lineMouseHandler(e, isLeftclick){
 }
 
 function eraseMouseHandler(e, isLeftclick){
-    let xPos = e.clientX - boundingClientRect.x;
-    let yPos = e.clientY - boundingClientRect.y;
-    xPos = Math.floor(xPos * (x/boundingClientRect.width));
-    yPos = Math.floor(yPos * (x/boundingClientRect.height));
-    setPixel(xPos, yPos, rgba(0,0,0,0));
+    let curCanvasMousePos = mousePosToCanvas(e.clientX, e.clientY);
+    drawLine(lastCanvasMousePos.x, lastCanvasMousePos.y, curCanvasMousePos.x, curCanvasMousePos.y, rgba(0,0,0,0));
+    lastCanvasMousePos = curCanvasMousePos;
 }
 
 function paintMouseHandler(e, isLeftclick){
-    let xPos = e.clientX - boundingClientRect.x;
-    let yPos = e.clientY - boundingClientRect.y;
-    xPos = Math.floor(xPos * (x/boundingClientRect.width));
-    yPos = Math.floor(yPos * (x/boundingClientRect.height));
-    setPixel(xPos, yPos, getCurrentColor(isLeftclick));
+    let curCanvasMousePos = mousePosToCanvas(e.clientX, e.clientY);
+    drawLine(lastCanvasMousePos.x, lastCanvasMousePos.y, curCanvasMousePos.x, curCanvasMousePos.y, getCurrentColor(startMouseDownCanvasPos.isLeftclick));
+    lastCanvasMousePos = curCanvasMousePos;
 }
 
 ////////////////////

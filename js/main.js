@@ -120,22 +120,45 @@ function fill(xPos, yPos, color){
     console.log("rgbaEquals(baseColor, color)", rgbaEquals(baseColor, color));
     if(rgbaEquals(baseColor, color))return;
 
-    fillNeighborWithSameBaseColorRecursive(xPos, yPos, baseColor, color);
+    try {
+        fillNeighborWithSameBaseColor(xPos, yPos, baseColor, color);
+    } catch (error) {
+        console.error(error);
+    }
     canvasContext.putImageData(imgs[curImg].imgData, 0, 0);
 }
 
-function fillNeighborWithSameBaseColorRecursive(xPos, yPos, baseColor, color){
-    if(xPos < 0 || yPos < 0)return;
-    if(xPos >= x || yPos >= y)return;
+//get all neighbors eith the same color and fill them with the color
+function fillNeighborWithSameBaseColor(xPos, yPos, baseColor, color){
+    let curXPos = xPos;
+    let curYPos = yPos;
+    let neighbors = [{x: xPos, y: yPos}];
+    while(neighbors.length > 0){
+        let pos = neighbors.pop();
+        if(checkPixelForFill(pos.x-1, pos.y, baseColor, color)){
+            neighbors.push({x: pos.x-1, y: pos.y});
+        }
+        if(checkPixelForFill(pos.x+1, pos.y, baseColor, color)){
+            neighbors.push({x: pos.x+1, y: pos.y});
+        }
+        if(checkPixelForFill(pos.x, pos.y-1, baseColor, color)){
+            neighbors.push({x: pos.x, y: pos.y-1});
+        }
+        if(checkPixelForFill(pos.x, pos.y+1, baseColor, color)){
+            neighbors.push({x: pos.x, y: pos.y+1});
+        }
+    }
+}
+
+//checks if the pixel has to be filled 
+function checkPixelForFill(xPos, yPos, baseColor, color){
+    if(xPos < 0 || yPos < 0)return false;
+    if(xPos >= x || yPos >= y)return false;
     if(rgbaEquals(getColorOnPos(xPos, yPos), baseColor)){
         setPixel(xPos, yPos, color, false);
-        
-        fillNeighborWithSameBaseColorRecursive(xPos-1, yPos, baseColor, color);
-        fillNeighborWithSameBaseColorRecursive(xPos+1, yPos, baseColor, color);
-        fillNeighborWithSameBaseColorRecursive(xPos, yPos-1, baseColor, color);
-        fillNeighborWithSameBaseColorRecursive(xPos, yPos+1, baseColor, color);
+        return true;
     }
-
+    return false;
 }
 
 //draws a line from pos1 to pos2 in imgs[curImg].imgData and put imgs[curImg].imgData in canvas
