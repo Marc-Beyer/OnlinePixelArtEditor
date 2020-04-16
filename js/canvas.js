@@ -8,10 +8,10 @@ let startMouseDownCanvasPos = {
     isLeftclick: true
 };
 
-let boundingClientRect = canvas.getBoundingClientRect();
 
 //transform globalMousePos to canvasMousePos
 function mousePosToCanvas(mousePosX, mousePosY){
+    let boundingClientRect = canvas.getBoundingClientRect();
     let xPos = mousePosX - boundingClientRect.x;
     let yPos = mousePosY - boundingClientRect.y;
     xPos = Math.floor(xPos * (x/boundingClientRect.width));
@@ -44,6 +44,7 @@ function handleMouseUpEvent(e){
 
 //handle a click on canvas
 function handleMouseEvent(e, isLeftclick = true){
+    let mouseUpCanvasPos = mousePosToCanvas(e.clientX, e.clientY);
     switch (curDrawState) {
         case DrawState.PAINT:
             paintMouseHandler(e, isLeftclick);
@@ -58,8 +59,10 @@ function handleMouseEvent(e, isLeftclick = true){
         case DrawState.FILL:
             break;
         case DrawState.LINE:
+            tmpDrawLine(startMouseDownCanvasPos.x, startMouseDownCanvasPos.y, mouseUpCanvasPos.x, mouseUpCanvasPos.y, getCurrentColor(startMouseDownCanvasPos.isLeftclick));
             break;
         case DrawState.SHAPE:
+            tmpDrawBox(startMouseDownCanvasPos.x, startMouseDownCanvasPos.y, mouseUpCanvasPos.x, mouseUpCanvasPos.y, getCurrentColor(startMouseDownCanvasPos.isLeftclick));
             break;
         case DrawState.PICKER:
             break;
