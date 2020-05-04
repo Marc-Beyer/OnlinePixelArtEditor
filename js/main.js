@@ -37,6 +37,9 @@ let isColorPickerLeftActive = true;
 let leftColor = {r:0,g:0,b:0,a:255};
 let rightColor = {r:255,g:255,b:255,a:255};
 
+//the name of the project
+let projectName = "MyImage";
+
 
 function init(){
     getUrlParameter();
@@ -74,15 +77,13 @@ function getUrlParameter(){
     }
     let name = urlParams.get('name');
     if(name != null){
-        imgs[curImg].name = name; 
-    }else{
-        name = "newImage";
+        projectName = name;
     }
     let animationLength = urlParams.get('animationLength');
     if(animationLength != null){
         for (let index = 0; index < animationLength; index++) {
             imgs[index] = {
-                name: name + "_" + index, 
+                name: projectName + "_" + index, 
                 imgData: undefined
             }
         }
@@ -197,8 +198,19 @@ function intToHex(int){
 
 //add eventlistener to downloadBtn
 document.getElementById("downloadBtn").addEventListener('click', () =>{
-    canvas.toBlob(function(blob){
-        download(blob, imgs[curImg].name + ".png", ".png");
+    let combinedCanvas = document.createElement("canvas");
+    let combinedCanvasContext = combinedCanvas.getContext("2d");
+    combinedCanvasContext.canvas.width = x * imgs.length;
+    combinedCanvasContext.canvas.height = y;
+    for (let index = 0; index < imgs.length; index++) {
+        const imgData = imgs[index].imgData;
+        combinedCanvasContext.putImageData(imgData, index * x, 0);
+    }
+
+    //document.getElementById("pageContent").appendChild(combinedCanvas);
+
+    combinedCanvas.toBlob(function(blob){
+        download(blob, projectName + ".png", ".png");
     });
 });
 
@@ -206,10 +218,50 @@ document.addEventListener('paste', (e) => {
     let dataTransferItemList = e.clipboardData.items;
     console.log("dataTransferItemList", dataTransferItemList);
     for (const iterator of dataTransferItemList) {
-        console.log("iterator", iterator);
+        if(iterator.type === "image/png"){
+            console.log("FOUND IMG");
+            let pasteImg = iterator.getAsFile();
+            let img = new Image;
+            img.onload = function() {
+                try {
+                    canvasContext.drawImage(img, 0, 0, x, y);
+                } catch (error) {
+                    console.log("error", error);
+                }
+            }
+            try {
+                let URL = window.URL || window.webkitURL;
+                img.src = URL.createObjectURL(pasteImg);
+            } catch (error) {
+                console.log("error", error);
+            }
+            console.log("pasteImg", pasteImg);
+        }
     }
     let paste = (event.clipboardData || window.clipboardData).getData('text');
     console.log("paste", paste);
 });
+
+document.addEventListener('copy', async function(e){
+    navigator.permissions.query({name: "clipboard-write"}).then(async function(result){
+        if (result.state == "granted" || result.state == "prompt") {
+            let blob = await getBlobFromCanvas(canvas);
+            console.log("blob", blob);
+            try {
+                e.clipboardData.setData("image/png", blob);
+                console.log(e.clipboardData.getData("image/png"));
+                e.preventDefault();
+            } catch (error) {
+                console.error(error);
+            }
+        }
+    });
+});
+
+function getBlobFromCanvas(canvas) {
+    return new Promise(function(resolve) {
+        canvas.toBlob(resolve);
+    });
+};
 
 init();

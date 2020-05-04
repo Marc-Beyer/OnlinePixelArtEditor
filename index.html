@@ -68,22 +68,22 @@
                     <div id="tool-colorPicker-rgba-r">
                         R:
                         <input type="range" min="0" max="255" step="1" value="255" class="slider" id="tool-colorPicker-rgba-r-slider">
-                        <input type="number" value="255" class="sliderNumerField" id="tool-colorPicker-rgba-r-sliderNumerField">
+                        <input type="number" min="0" max="255" value="255" class="sliderNumerField" id="tool-colorPicker-rgba-r-sliderNumerField">
                     </div>
                     <div id="tool-colorPicker-rgba-g">
                         G
                         <input type="range" min="0" max="255" step="1" value="255" class="slider" id="tool-colorPicker-rgba-g-slider">
-                        <input type="number" value="255" class="sliderNumerField" id="tool-colorPicker-rgba-g-sliderNumerField">
+                        <input type="number" min="0" max="255" value="255" class="sliderNumerField" id="tool-colorPicker-rgba-g-sliderNumerField">
                     </div>
                     <div id="tool-colorPicker-rgba-b">
                         B
                         <input type="range" min="0" max="255" step="1" value="255" class="slider" id="tool-colorPicker-rgba-b-slider">
-                        <input type="number" value="255" class="sliderNumerField" id="tool-colorPicker-rgba-b-sliderNumerField">
+                        <input type="number" min="0" max="255" value="255" class="sliderNumerField" id="tool-colorPicker-rgba-b-sliderNumerField">
                     </div>
                     <div id="tool-colorPicker-rgba-a">
                         A
                         <input type="range" min="0" max="255" step="1" value="255" class="slider" id="tool-colorPicker-rgba-a-slider">
-                        <input type="number" value="255" class="sliderNumerField" id="tool-colorPicker-rgba-a-sliderNumerField">
+                        <input type="number" min="0" max="255" value="255" class="sliderNumerField" id="tool-colorPicker-rgba-a-sliderNumerField">
                     </div>
                     <div id="tool-colorPicker-rgba-hex">
                         Hex #
@@ -98,7 +98,18 @@
                     <button id="tool-animationControl-panel-playBtn">></button>
                     <button id="tool-animationControl-panel-nextBtn">Next</button>
                 </div>
+                <div id="tool-animationControl-speed">
+                    Speed:
+                    <input type="range" min="0.1" max="2" step="0.01" value="1" class="slider" id="tool-animationControl-speed-slider">
+                    <input type="number" min="0.1" max="2" step="0.01" value="1" class="sliderNumerField" id="tool-animationControl-speed-sliderNumerField">
+                    s
+                </div>
                 <div id="tool-animationControl-content">
+
+                </div>
+                <div id="tool-animationControl-add">
+                    <button id="tool-animationControl-add-btn">+</button>
+                    <button id="tool-animationControl-copy-btn">Copy</button>
                 </div>
             </div>
         </div>

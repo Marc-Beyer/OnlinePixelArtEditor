@@ -20,6 +20,7 @@ function fillNeighborWithSameBaseColor(xPos, yPos, baseColor, color){
     let curXPos = xPos;
     let curYPos = yPos;
     let neighbors = [{x: xPos, y: yPos}];
+    setPixel(xPos, yPos, color, false);
     while(neighbors.length > 0){
         let pos = neighbors.pop();
         if(checkPixelForFill(pos.x-1, pos.y, baseColor, color)){

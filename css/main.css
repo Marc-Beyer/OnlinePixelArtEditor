@@ -168,42 +168,6 @@ body #pageContent #toolBox #tool-colorPicker #tool-colorPicker-rgba {
   margin: 0;
 }
 
-body #pageContent #toolBox #tool-colorPicker #tool-colorPicker-rgba .slider {
-  -webkit-appearance: none;
-     -moz-appearance: none;
-          appearance: none;
-  outline: none;
-  background: #929292;
-  opacity: 0.7;
-  -webkit-transition: opacity .2s;
-  transition: opacity .2s;
-  width: 80%;
-}
-
-body #pageContent #toolBox #tool-colorPicker #tool-colorPicker-rgba .slider:hover {
-  opacity: 1;
-}
-
-body #pageContent #toolBox #tool-colorPicker #tool-colorPicker-rgba .slider::-webkit-slider-thumb {
-  -webkit-appearance: none;
-          appearance: none;
-  width: 25px;
-  height: 25px;
-  background: #494949;
-  cursor: pointer;
-}
-
-body #pageContent #toolBox #tool-colorPicker #tool-colorPicker-rgba .slider::-moz-range-thumb {
-  width: 25px;
-  height: 25px;
-  background: #2c2c2c;
-  cursor: pointer;
-}
-
-body #pageContent #toolBox #tool-colorPicker #tool-colorPicker-rgba .sliderNumerField {
-  width: 25%;
-}
-
 body #pageContent #toolBox #tool-colorPicker #tool-colorPicker-rgba div {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -238,6 +202,23 @@ body #pageContent #toolBox #tool-animationControl #tool-animationControl-panel {
   margin-top: 1rem;
 }
 
+body #pageContent #toolBox #tool-animationControl #tool-animationControl-speed {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  margin-top: 1rem;
+}
+
 body #pageContent #toolBox #tool-animationControl #tool-animationControl-content {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -255,13 +236,118 @@ body #pageContent #toolBox #tool-animationControl #tool-animationControl-content
   margin: 0;
 }
 
-body #pageContent #toolBox #tool-animationControl #tool-animationControl-content button {
+body #pageContent #toolBox #tool-animationControl #tool-animationControl-content div {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  width: 90%;
+  margin: 0;
+  margin-top: .2rem;
+  padding: .2rem;
+  cursor: pointer;
+  border: none;
+  color: #000000;
+  background: #ffffff;
+}
+
+body #pageContent #toolBox #tool-animationControl #tool-animationControl-content div canvas {
+  width: 2rem;
+  height: 2rem;
+  margin: 0;
+  padding: 0;
+}
+
+body #pageContent #toolBox #tool-animationControl #tool-animationControl-content div h4 {
+  margin: 0;
+  padding: 0;
   width: 100%;
+  overflow: hidden;
+}
+
+body #pageContent #toolBox #tool-animationControl #tool-animationControl-content div div {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: right;
+      -ms-flex-pack: right;
+          justify-content: right;
+  border: none;
+  color: #000000;
+  background: none;
+  margin: 0;
+  padding: 0;
+}
+
+body #pageContent #toolBox #tool-animationControl #tool-animationControl-content div div button {
+  background: #6b6b6b;
+  border: 1px solid #000000;
+  border-right: none;
+}
+
+body #pageContent #toolBox #tool-animationControl #tool-animationControl-content div div .deleteBtn {
+  background: #fc4141;
+  border-right: 1px solid #000000;
 }
 
 body #pageContent #toolBox #tool-animationControl #tool-animationControl-content .active {
   background: #9e9e9e;
-  border: 1px solid #9e9e9e;
+}
+
+body #pageContent #toolBox #tool-animationControl #tool-animationControl-add {
+  margin-top: .2rem;
+}
+
+body #pageContent #toolBox .slider {
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  outline: none;
+  background: #929292;
+  opacity: 0.7;
+  -webkit-transition: opacity .2s;
+  transition: opacity .2s;
+  width: 80%;
+}
+
+body #pageContent #toolBox .slider:hover {
+  opacity: 1;
+}
+
+body #pageContent #toolBox .slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+          appearance: none;
+  width: 25px;
+  height: 25px;
+  background: #494949;
+  cursor: pointer;
+}
+
+body #pageContent #toolBox .slider::-moz-range-thumb {
+  width: 25px;
+  height: 25px;
+  background: #2c2c2c;
+  cursor: pointer;
+}
+
+body #pageContent #toolBox .sliderNumerField {
+  width: 25%;
 }
 
 body #pageContent canvas {

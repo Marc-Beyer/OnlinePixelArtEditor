@@ -40,6 +40,7 @@ function handleMouseUpEvent(e){
             handleToolSelectionPaint();
             break;
     }
+    updateAnimationBtnCanvas();
 }
 
 //handle a click on canvas
